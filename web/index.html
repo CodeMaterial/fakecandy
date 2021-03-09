@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+<script type="module">
+
+// Find the latest version by visiting https://unpkg.com/three.
+
+import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js';
+
+const scene = new THREE.Scene();
+
+var s = new THREE.Scene();
+
+var c = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+
+c.position.z = 5; //z is in and out!
+
+var r = new THREE.WebGLRenderer({antialias: true});
+
+r.setClearColor("#000000");
+
+r.setSize(window.innerWidth, window.innerHeight);
+
+document.body.appendChild(r.domElement);
+
+window.addEventListener('resize', () => {
+    r.setSize(window.innerWidth,window.innerHeight);
+    c.aspect = window.innerWidth / window.innerHeight;
+    c.updateProjectionMatrix();
+});
+
+var red = 0xff0000;
+var green = 0x00ff00;
+var blue = 0x0000ff;
+var white = 0xffffff;
+
+var sGeo = new THREE.SphereGeometry(0.1, 5,5);
+var bGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+var redMat = new THREE.MeshLambertMaterial({color: red});
+var greenMat = new THREE.MeshLambertMaterial({color: green});
+var blueMat = new THREE.MeshLambertMaterial({color: blue});
+var whiteMat = new THREE.MeshLambertMaterial({color: white});
+
+var xObj = new THREE.Mesh(sGeo, redMat);
+var yObj = new THREE.Mesh(sGeo, greenMat);
+var zObj = new THREE.Mesh(sGeo, blueMat);
+var oObj = new THREE.Mesh(bGeo, whiteMat)
+
+xObj.position.x = 1
+yObj.position.y = 1
+zObj.position.z = 1
+
+s.add(xObj);
+s.add(yObj);
+s.add(zObj);
+s.add(oObj);
+
+var light = new THREE.PointLight(0xFFFFFF, 1, 500);
+
+light.position.set(10,10,25);
+s.add(light)
+
+
+var ambient = new THREE.AmbientLight( 0x7B7B7B ); // soft white light
+s.add( ambient );
+
+
+
+//var controls = new THREE.OrbitControls( c, r.domElement );
+
+
+var render = function () {
+    requestAnimationFrame(render)
+    r.render(s, c);
+}
+
+render();
+
+
+var controls = new OrbitControls(c, r.domElement );
+
+
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
